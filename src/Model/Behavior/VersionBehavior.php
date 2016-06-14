@@ -161,7 +161,7 @@ class VersionBehavior extends Behavior
         $options['associated'] = $newOptions + $options['associated'];
 
         $fields = $this->_fields();
-        $values = $entity->extract($fields, true);
+        $values = $entity->extract($fields, !$entity->isNew());
 
         $model = $this->_config['referenceName'];
         $primaryKey = (array)$this->_table->primaryKey();
