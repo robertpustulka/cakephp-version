@@ -320,7 +320,7 @@ class VersionBehavior extends Behavior
         $schema = $this->_table->schema();
         $fields = $schema->columns();
         if ($this->_config['fields'] !== null) {
-            $fields = array_intersect($fields, (array)$this->_config['fields']);
+            $fields = (array)$this->_config['fields'];
         }
 
         return $fields;
