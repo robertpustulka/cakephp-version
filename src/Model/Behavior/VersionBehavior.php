@@ -60,7 +60,8 @@ class VersionBehavior extends Behavior
         'fields' => null,
         'foreignKey' => 'foreign_key',
         'referenceName' => null,
-        'onlyDirty' => false
+        'onlyDirty' => false,
+        'forceClean' => []
     ];
 
     /**
@@ -161,8 +162,13 @@ class VersionBehavior extends Behavior
         $newOptions = [$name => ['validate' => false]];
         $options['associated'] = $newOptions + $options['associated'];
 
+        $dirty = $this->_config['onlyDirty'];
+        $clean = $this->_config['forceClean'];
         $fields = $this->_fields();
-        $values = $entity->extract($fields, $this->_config['onlyDirty']);
+        $values = $entity->extract($fields, $dirty);
+        if ($dirty && $clean) {
+            $values += $entity->extract((array)$clean);
+        }
 
         $model = $this->_config['referenceName'];
         $primaryKey = (array)$this->_table->primaryKey();
